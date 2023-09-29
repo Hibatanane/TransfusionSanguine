@@ -19,7 +19,7 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
     @Query(value = "SELECT mail FROM personne WHERE mail = :mail", nativeQuery = true)
     String isEmailExist(@Param("mail") String mail);
 
-
+ Personne findByMail(String mail);
     @Modifying
     @Query(value = "INSERT INTO personne (nomP,prenom,mail,mdp,adresseP,dateP,latitude,longitude,num,sexe,ville,typePersonne,estPersonnel,estResponsable,estAdmin) VALUES" + "(:nomP,:prenom,:mail,:mdp,:adresseP,:dateP,:latitude,:longitude,:num,:sexe,:ville,:typePersonne,:estPersonnel,:estResponsable,:estAdmin)", nativeQuery = true)
     @Transactional
@@ -41,7 +41,7 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
     );
 
 
-    @Query("SELECT p from Personne p where p.mail=:mail")
+    @Query(value="SELECT p from Personne p where p.mail=:mail")
     Personne getUser(@Param("mail") String mail);
 
 }

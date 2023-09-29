@@ -46,7 +46,7 @@ public class Personne {
     private String mdp;
 
     private boolean estPersonnel;
-//donneur ou receveur
+    //donneur ou receveur
     @Column(length = 10)
     private String typePersonne;
 

@@ -18,7 +18,7 @@
         <h2 class="form-header card-title mb-4 ">
             <i class="fa fa-user-circle"> Se connecter</i>
         </h2>
-        <form action="/connexion" method="POST" class="login-form">
+        <form action="/connexion" method="post" class="login-form">
             <div class="row">
                 <div class="form-group col">
                     <input type="email" name="email" class="form-control form-control-lg"
@@ -27,7 +27,7 @@
             </div>
             <div class="row">
                 <div class="form-group col">
-                    <input type="password" name="password" class="form-control form-control-lg"
+                    <input type="password" name="mdp" class="form-control form-control-lg"
                            placeholder="Entrer votre mot de passe">
                 </div>
             </div>
@@ -35,6 +35,9 @@
                 <div class="form-group col">
                     <button class="btn btn-md btn-reg">Se connecter</button>
                 </div>
+            </div>
+            <div th:if="${error != null}" class="text-white bg-danger alert-danger" role="alert">
+                <span th:text="${error}"></span>
             </div>
         </form>
         <p class="card-text text-dark my-2 ">Vous n'avez pas de compte ?
