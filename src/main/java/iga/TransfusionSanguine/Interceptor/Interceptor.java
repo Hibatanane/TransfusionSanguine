@@ -81,6 +81,7 @@ public class Interceptor implements HandlerInterceptor {
         String email = (String) session.getAttribute("email");
         // Recuper l'utilisateur a partir d'email
         Personne personne = personneRepository.findByMail(email);
+        System.out.println("Personne postHandle : "+personne.getIdPersonne());
         // Ajouter l'email à l'objet Model
         if (modelAndView != null && personne != null) {
             modelAndView.addObject("personne", personne);

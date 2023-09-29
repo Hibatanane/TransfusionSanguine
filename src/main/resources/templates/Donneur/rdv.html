@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transfusion Sanguine</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Inclure DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.js"></script>
+    <style>
+        .footer {
+            background-color: #FADBD8;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            color:black;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .navbar-dark{
+            background-color: #C0392B ;
+            color: #eff0f1;
+        }
+        .header-background {
+            background-color:#F5B7B1;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/Donneur/acceuil">Nabd Al Hayat
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/Donneur/acceuil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Donneur/don">Liste de dons</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Donneur/rdv">Rendez-vous</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Donneur/">Blog</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Mon compte
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">Profil</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/deconnexion">Déconnexion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="d-flex justify-content-end align-items-center mt-5 ml-4" style="margin-right: 20px;">
+    <button class="btn text-white btn-lg" style="background-color: #e54747; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);"id="openDialogBtn">Prendre rdv</button>
+</div>
+<main>
+    <div class="container">
+
+        <div class="card" style="margin-top: 50px;">
+            <div class="card-header">
+                <h1>Liste des Rendez-vous</h1>
+            </div>
+            <div class="card-body">
+                <!-- Utilisation de Thymeleaf pour afficher un message si la liste est vide -->
+                <th:block th:if="${tailleListeRdv > 0}">
+                    <table id="votreTableID" class="table">
+                        <thead class="header-background">
+                        <tr>
+                            <th>Centre Affecté</th>
+                            <th>Date du Rendez-vous</th>
+                            <th>Heure du Rendez-vous</th>
+                            <th>Confirmation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="rdv : ${listeRdv}">
+                            <td th:text="${rdv.centreAffecte}"></td>
+                            <td th:text="${rdv.dateRdv}"></td>
+                            <td th:text="${rdv.heureRdv}"></td>
+                            <td th:text="${rdv.confirmation}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </th:block>
+                <th:block th:unless="${tailleListeRdv > 0}">
+                    <p>Aucun rendez-vous n'est enregistré.</p>
+                </th:block>
+
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Modal -->
+<div class="modal fade" id="rdvDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Prendre un rendez-vous</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/Donneur/rdv" method="post" class="reg-form" th:object="${Rdv}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dateRdv">Date du Rendez-vous</label>
+                        <input type="date" id="dateRdv" name="dateRdv" class="form-control"  required>
+                    </div>
+                    <div class="form-group">
+                        <label for="heureRdv">Heure du Rendez-vous</label>
+                        <input type="time" id="heureRdv" name="heureRdv" class="form-control"  required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Confirmer le rdv</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <p>Tous les droits réservés &copy; <span id="currentYear"></span>,Transfusion Sanguine</p>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+    (document).ready(function () {
+        $('#votreTableID').DataTable();
+    });
+    $(document).ready(function () {
+        $("#openDialogBtn").click(function () {
+            $("#rdvDialog").modal("show");
+        });
+    });
+</script>
+
+</body>
+</html>

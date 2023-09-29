@@ -17,6 +17,11 @@
     <link rel="stylesheet"
           href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
           type="text/css">
+    <style>
+        .card , .card-body , .card-reg , .card-header
+        {
+            border:1px solid transparent;
+        }    </style>
 </head>
 <body class="d-flex align-items-center justify-content-center body2">
 <div class="card card-reg registration-form-card col-6 bg-transparent border-2"
@@ -80,7 +85,7 @@
                     </select>
                 </div>
                 <div class="row">
-                    <div class="form-group col">
+                    <div class="form-group col-4">
                         <select class="form-select mt-2" aria-label="Default select example" th:field="*{typePersonne}"
                                 required>
                             <option value="" hidden selected>-- Type --</option>
@@ -88,12 +93,26 @@
                             <option value="donneur" th:selected="${typePersonne == 'donneur'}">Donneur</option>
                         </select>
                     </div>
-                    <div class="form-group col">
+                    <div class="form-group col-4">
                         <select class="form-select mt-2" aria-label="Default select example" th:field="*{sexe}"
                                 required>
                             <option value="" hidden selected>-- Votre Sexe --</option>
-                            <option value="femme" th:selected="${typePersonne == 'femme'}">Femme</option>
-                            <option value="homme" th:selected="${typePersonne == 'homme'}">Homme</option>
+                            <option value="femme" th:selected="${sexe == 'femme'}">Femme</option>
+                            <option value="homme" th:selected="${sexe == 'homme'}">Homme</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-4">
+                        <select class="form-select mt-2" aria-label="Default select example" th:field="*{groupe}"
+                                required>
+                            <option value="" hidden selected>-- Votre Groupe Sanguin --</option>
+                            <option value="A+" th:selected="${groupe == 'A+'}">A+</option>
+                            <option value="A-" th:selected="${groupe == 'A-'}">A-</option>
+                            <option value="B+" th:selected="${groupe == 'B+'}">B+</option>
+                            <option value="B-" th:selected="${groupe == 'B-'}">B-</option>
+                            <option value="AB+" th:selected="${groupe == 'AB+'}">AB+</option>
+                            <option value="AB-" th:selected="${groupe == 'AB-'}">AB-</option>
+                            <option value="O+" th:selected="${groupe == 'O+'}">O+</option>
+                            <option value="O-" th:selected="${groupe == 'O-'}">O-</option>
                         </select>
                     </div>
                 </div>
