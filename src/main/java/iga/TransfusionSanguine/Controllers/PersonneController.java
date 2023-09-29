@@ -1,13 +1,14 @@
 package iga.TransfusionSanguine.Controllers;
 
+import iga.TransfusionSanguine.Entities.Donneur;
 import iga.TransfusionSanguine.Entities.Personne;
+import iga.TransfusionSanguine.Entities.Receveur;
 import iga.TransfusionSanguine.Repositories.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,10 +17,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Controller
 @AllArgsConstructor
@@ -70,11 +69,18 @@ public class PersonneController {
         //hash password
         String bmdp = BCrypt.hashpw(personne.getMdp(), BCrypt.gensalt());
         //register user
-        personneRepository.registerUser(personne.getNomP(), personne.getPrenom(), personne.getMail(), bmdp, personne.getAdresseP(), personne.getDateP(), personne.getLatitude(), personne.getLongitude(), personne.getNum(), personne.getSexe(), personne.getVille(), personne.getTypePersonne(), false,false,false);
-     if(personne.getTypePersonne().equals("Receveur"))
-     {
+        personneRepository.registerUser(personne.getNomP(), personne.getPrenom(), personne.getMail(), bmdp, personne.getAdresseP(), personne.getDateP(), personne.getLatitude(), personne.getLongitude(), personne.getNum(), personne.getSexe(), personne.getVille(), personne.getTypePersonne(), personne.getGroupe(), false, false, false);
+        if (personne.getTypePersonne().equals("Receveur") ||personne.getTypePersonne().equals("receveur"))
+        {
 
-     }
+            Receveur receveur=new Receveur();
+            receveur.setIdPersonne(personne.getIdPersonne());
+            receveurRepository.save(receveur);        }
+        else {
+            Donneur donneur=new Donneur();
+            donneur.setIdPersonne(personne.getIdPersonne());
+       donneurRepository.save(donneur);
+        }
         registrationPage.addObject("success", "Votre compte est crée.");
         //Remplir le champs des villes :
         registrationPage.addObject("cities", cities);

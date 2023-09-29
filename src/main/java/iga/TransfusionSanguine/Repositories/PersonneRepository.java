@@ -21,7 +21,7 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
 
  Personne findByMail(String mail);
     @Modifying
-    @Query(value = "INSERT INTO personne (nomP,prenom,mail,mdp,adresseP,dateP,latitude,longitude,num,sexe,ville,typePersonne,estPersonnel,estResponsable,estAdmin) VALUES" + "(:nomP,:prenom,:mail,:mdp,:adresseP,:dateP,:latitude,:longitude,:num,:sexe,:ville,:typePersonne,:estPersonnel,:estResponsable,:estAdmin)", nativeQuery = true)
+    @Query(value = "INSERT INTO personne (nomP,prenom,mail,mdp,adresseP,dateP,latitude,longitude,num,sexe,ville,typePersonne,groupe,estPersonnel,estResponsable,estAdmin) VALUES" + "(:nomP,:prenom,:mail,:mdp,:adresseP,:dateP,:latitude,:longitude,:num,:sexe,:ville,:typePersonne,:groupe,:estPersonnel,:estResponsable,:estAdmin)", nativeQuery = true)
     @Transactional
     void registerUser(@Param("nomP") String nomP,
                       @Param("prenom") String prenom,
@@ -35,13 +35,11 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
                       @Param("sexe") String sexe,
                       @Param("ville") String ville,
                       @Param("typePersonne") String typePersonne,
+                      @Param("groupe")String groupe,
                       @Param("estPersonnel") boolean estPersonnel,
                       @Param("estResponsable") boolean estResponsable,
                       @Param("estAdmin") boolean estAdmin
     );
 
-
-    @Query(value="SELECT p from Personne p where p.mail=:mail")
-    Personne getUser(@Param("mail") String mail);
 
 }

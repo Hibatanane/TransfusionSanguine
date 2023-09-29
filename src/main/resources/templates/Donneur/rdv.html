@@ -24,13 +24,13 @@
             align-items: center;
 
         }
-.navbar-dark{
-    background-color: #C0392B ;
-    color: #eff0f1;
-}
-.btn-primary{
-    background-color: #F5B7B1;
-}
+        .navbar-dark{
+            background-color: #C0392B ;
+            color: #eff0f1;
+        }
+        .btn-primary{
+            background-color: #F5B7B1;
+        }
     </style>
 </head>
 <body>
@@ -78,9 +78,27 @@
 </header>
 
 <main>
-    <div class="container text-center" style="padding-top:100px;">
-
+    <div class="container">
+        <table id="myTable" class="display" style="width:100%; margin-top: 20px;">
+            <thead>
+            <tr>
+                <th class="th-sm">Centre Affecté</th>
+                <th class="th-sm">Date du Rendez-vous</th>
+                <th class="th-sm">Heure du Rendez-vous</th>
+                <th class="th-sm">Confirmation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="rdv : ${listeRdv}">
+                <td th:text="${rdv.centreAffecte}"></td>
+                <td th:text="${rdv.dateRdv}"></td>
+                <td th:text="${rdv.heureRdv}"></td>
+                <td th:text="${rdv.confirmation}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
 </main>
 <footer class="footer">
     <div class="container">

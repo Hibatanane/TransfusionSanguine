@@ -24,8 +24,6 @@ public class Rdv {
     private String confirmation;
     @Column(length = 30)
     private String centreAffecte;
-    @Column(length = 50)
-    private String disponibilite;
 
 
     //----------------------------------------------------------//

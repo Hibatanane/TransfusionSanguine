@@ -14,7 +14,6 @@ import java.util.List;
 
 public class Donneur extends Personne {
 
-
     //----------------------------------------------------//
     //     Relation entre Donneur-Don : Faire   //
     @OneToMany(mappedBy = "donneurDon", cascade = CascadeType.ALL, orphanRemoval = true)

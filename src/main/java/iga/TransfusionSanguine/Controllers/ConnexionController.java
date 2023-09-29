@@ -70,26 +70,32 @@ public class ConnexionController {
             return "login";
         }
         session.setAttribute("email", email);
-        if (personne.getTypePersonne() != null) {
+        if (personne.getTypePersonne() != null)
+        {
             if (personne.getTypePersonne().equals("Receveur") || personne.getTypePersonne().equals("receveur")) {
-                return "redirect:/Donneur/acceuil";
+                return "redirect:/Receveur/acceuil";
 
             }
             if (personne.getTypePersonne().equals("Donneur") || personne.getTypePersonne().equals("donneur")) {
                 return "redirect:/Donneur/acceuil";
             }
-            if (personne.isEstPersonnel() == true) {
+
+        } else {
+
+            if (personne.isEstPersonnel() == true && personne.isEstAdmin()==false && personne.isEstResponsable()==false) {
                 return "redirect:/Personnel/acceuil";
 
             }
-        } else {
-            if (personne.isEstResponsable() == true) {
+            if (personne.isEstResponsable() == true && personne.isEstPersonnel() == false && personne.isEstAdmin()==false ) {
                 return "redirect:/Responsable/acceuil";
 
             }
+            if (personne.isEstAdmin() == true && personne.isEstPersonnel()==false && personne.isEstResponsable()==false) {
+                return "redirect:/Admin/acceuil";
 
+            }
         }
-        return "redirect:/Admin/acceuil";
+        return "erreur";
 
 
     }

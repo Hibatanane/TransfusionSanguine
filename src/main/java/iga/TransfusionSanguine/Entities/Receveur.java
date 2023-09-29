@@ -25,4 +25,5 @@ public class Receveur extends Personne {
     @OneToMany(mappedBy = "receveur")
     private List<Transfusion> transfusions;
 
+
 }
