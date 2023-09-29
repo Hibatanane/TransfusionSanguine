@@ -1,0 +1,91 @@
+*
+{
+    box-sizing: border-box;
+}
+.body1{
+
+    height: 95vh;
+    background-image: url(../../images/blood-donation-animate.svg);
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+
+}
+.body2{
+
+    height: 100vh;
+    font-size: 15px;
+    background-color: #eff0f1;
+    background-size: contain;
+    background-position: right;
+    background-repeat: no-repeat;
+
+}
+.body3
+{
+    height: 100vh;
+    background-image: url(../../images/login.svg);
+    background-color: #eff0f1;
+    background-size: contain;
+    background-position: left;
+    background-repeat: no-repeat;
+
+}
+#simple-text-card
+{
+    margin: 0 5px;
+    font-family: Comfortaa;
+}
+#simple-text-card h1
+{
+    font-size: 65px;
+}
+#simple-text-card p
+{
+    font-size: 14px;
+}
+
+.button-wrapper a
+{   padding: 15px;
+    width: 200px;
+    color: black;
+    border: 1px solid #6f0404;
+    box-shadow: 2px 5px 6px black;
+}
+
+.register
+{   margin-right: 5px;
+
+}
+
+.card .form-control
+{
+    margin: 10px 0px;
+    box-shadow: 2px 2px 2px black;
+}
+.card-reg
+{
+    text-transform: capitalize;
+    height:100%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.card ,.card-body , .card-header{
+    border:1px solid transparent;
+}
+.card button{
+    background-color: #f2f3f4;
+    border: 1px solid black;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px black;
+    margin: 10px ;
+}
+
+.card-login
+{
+    margin-left: 650px;
+}
+form,btn-reg
+{
+    align-items: center;
+    justify-content: center;
+}

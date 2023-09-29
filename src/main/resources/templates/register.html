@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/fontawesome-free-6.1.2-web/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Inscription</title>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+          href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+          type="text/css">
+</head>
+<body class="d-flex align-items-center justify-content-center body2">
+<div class="card card-reg registration-form-card col-6 bg-transparent border-2"
+     style="height: 18rem; margin-top: -420px;">
+    <h2 class="form-header card-title mb-1 text-center mt-lg-4">
+        <i class="fa fa-edit"> Formulaire d'inscription</i>
+    </h2>
+    <div class="card-body">
+        <form action="/inscription" method="post" class="reg-form" th:object="${registerUser}">
+            <div class="row">
+                <div class="form-group col">
+                    <input type="text" class="form-control form-control-lg" placeholder="Entrer votre prénom"
+                           th:field="*{prenom}"  required>
+                </div>
+                <div class="form-group col">
+                    <input type="text" class="form-control form-control-lg" th:field="*{nomP}"
+                           placeholder="Entrer votre nom"required>
+                    <div th:if="${#fields.hasErrors('nomP')}" class="text-white bg-danger"
+                         th:errors="*{nomP}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <input type="email" class="form-control form-control-lg" th:field="*{mail}"
+                           placeholder="Entrer votre mail" required>
+                    <div th:if="${errormail!=null}" role="alert" class="text-white bg-danger">
+                        <span th:text="${errormail}"> </span>
+                    </div>
+                </div>
+
+                <div class="form-group col">
+                    <input type="password" class="form-control form-control-lg" th:field="*{mdp}"
+                           placeholder="Entrer votre mot de passe" required>
+                    <div th:if="${errormdp != null}" class="text-white bg-danger alert-danger" role="alert">
+                        <span th:text="${errormdp}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <input type="text" class="form-control form-control-lg" th:field="*{adresseP}"
+                           placeholder="Entrer votre adresse" required>
+
+                </div>
+                <div class="form-group col">
+                    <input type="tel" class="form-control form-control-lg" maxlength="10" pattern="[0-9]{10}" title="Le numéro de téléphone doit contenir exactement 10 chiffres." th:field="*{num}"
+                           placeholder="Votre Numéro de téléphone" required>
+                    <div th:if="${#fields.hasErrors('num')}" class="text-white bg-danger"
+                         th:errors="*{num}"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col">
+                    <input type="date" class="form-control form-control-lg" th:field="*{dateP}" required>
+                </div>
+                <div class="form-group col">
+                    <select class="form-select mt-3" aria-label="Default select example" th:field="*{ville}" required>
+                        <option value="" hidden selected> -- Choisissez une ville --</option>
+                        <option th:each="ville:${cities}" th:value="${ville}" th:text="${ville}"></option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <select class="form-select mt-2" aria-label="Default select example" th:field="*{typePersonne}"
+                                required>
+                            <option value="" hidden selected>-- Type --</option>
+                            <option value="receveur" th:selected="${typePersonne == 'receveur'}">Receveur</option>
+                            <option value="donneur" th:selected="${typePersonne == 'donneur'}">Donneur</option>
+                        </select>
+                    </div>
+                    <div class="form-group col">
+                        <select class="form-select mt-2" aria-label="Default select example" th:field="*{sexe}"
+                                required>
+                            <option value="" hidden selected>-- Votre Sexe --</option>
+                            <option value="femme" th:selected="${typePersonne == 'femme'}">Femme</option>
+                            <option value="homme" th:selected="${typePersonne == 'homme'}">Homme</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+                    <input type="hidden" id="latitude" th:value="${latitude}" th:field="*{latitude}">
+                    <input type="hidden" id="longitude" th:value="${longitude}" th:field="*{longitude}">
+                    <div class="mt-4" id="map" style="height:300px;">
+                    </div>
+
+            <div class="row">
+                <div class="form-group col">
+                    <button class="btn btn-md btn-reg">S'inscrire</button>
+                </div>
+            </div>
+            <div th:if="${success != null }" class="alert alert-success">
+                <span th:text="${success}"></span>
+            </div>
+        </form>
+    </div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiaGliYWFhMTk4IiwiYSI6ImNsaGszZ2tldjBjOTUza3MxMWZycXVrcjAifQ.jp7BQfH_oAI0F0mOi7rQCQ';
+
+        // Création de la carte centrée sur le Maroc
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-7.5889900, 33.9715900],
+            zoom: 5
+        });
+
+        // Ajout d'un bouton pour la géolocalisation
+        var geolocate = new mapboxgl.GeolocateControl();
+
+        map.addControl(geolocate);
+
+        geolocate.on('geolocate', function (e) {
+            var lon = e.coords.longitude;
+            var lat = e.coords.latitude;
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lon;
+            var position = [lon, lat];
+            console.log(position);
+        });
+        // Ajout des boutons de zoom et de dézoom
+        map.addControl(new mapboxgl.NavigationControl());
+
+        //Ajout de la barre de recherche
+        map.addControl(
+            new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl,
+                position: 'top-left'
+            })
+        );
+
+        // Récupération de la latitude et de la longitude
+        map.on('click', function (e) {
+            document.getElementById('latitude').value = e.lngLat.lat.toFixed(6);
+            document.getElementById('longitude').value = e.lngLat.lng.toFixed(6);
+            console.log('Latitude:', e.lngLat.lat.toFixed(6));
+            console.log('Longitude:', e.lngLat.lng.toFixed(6));
+        });
+
+    </script>
+    <p class="card-text text-dark ">Vous avez déjà un compte ?
+        <span><a href="/connexion" class="text-danger">Connectez-vous</a></span>
+    </p>
+</div>
+</body>
+</html>
