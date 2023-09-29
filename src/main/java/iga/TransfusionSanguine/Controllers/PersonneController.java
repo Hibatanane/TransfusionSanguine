@@ -55,8 +55,7 @@ public class PersonneController {
     public ModelAndView register(@Valid @ModelAttribute("registerUser") Personne personne) throws IOException {
         ModelAndView registrationPage = new ModelAndView("register");
         List<String> cities = initCities();
-        String ok = personneRepository.isEmailExist(personne.getMail());
-        if (ok != null) {
+        if (!personneRepository.isEmailExist(personne.getMail())) {
             registrationPage.addObject("errormail", "ce mail existe déjà");
             registrationPage.addObject("cities", cities);
             return registrationPage;

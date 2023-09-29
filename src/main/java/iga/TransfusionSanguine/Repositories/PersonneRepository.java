@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
 
@@ -17,7 +16,7 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
     int isVerified(@Param("mail") String mail);
 
     @Query(value = "SELECT mail FROM personne WHERE mail = :mail", nativeQuery = true)
-    String isEmailExist(@Param("mail") String mail);
+    boolean isEmailExist(@Param("mail") String mail);
 
  Personne findByMail(String mail);
     @Modifying
@@ -42,4 +41,7 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
     );
 
 
+    Personne findByIdPersonne(long idPersonne);
+
+    void deleteByIdPersonne(long idPersonne);
 }
