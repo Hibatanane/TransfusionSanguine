@@ -17,10 +17,17 @@
   <link rel="stylesheet"
         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
         type="text/css">
+  <!-- DataTables CSS -->
+  <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+
+  <!-- DataTables JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
   <style>
     .footer {
       background-color: #FADBD8;
-      padding: 20px 0;
+      padding: 2px 0;
       text-align: center;
       position: fixed;
       bottom: 0;
@@ -135,6 +142,43 @@
             <button class="btn btn-md btn-reg">Ajouter</button>
           </div>
         </div>
+
+        <hr>
+        <h2 class="form-header card-title mb-1 text-center mt-lg-4">
+          <i class="fa fa-edit">La liste des centres</i>
+        </h2>
+        <table id="example" class="display" style="width:100%">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Tiger Nixon</td>
+            <td>System Architect</td>
+            <td>Edinburgh</td>
+            <td>61</td>
+            <td>2011-04-25</td>
+            <td>$320,800</td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+          </tr>
+          </tfoot>
+        </table><br><br>
         <div th:if="${success != null }" class="alert alert-success">
           <span th:text="${success}"></span>
         </div>
@@ -193,6 +237,11 @@
     <p>Tous les droits réservés &copy; <span id="currentYear"></span>,Transfusion Sanguine</p>
   </div>
 </footer>
+<script>
+  $(document).ready(function() {
+    $('#example').DataTable();
+  });
+</script>
 
 <script>
   document.getElementById("currentYear").textContent = new Date().getFullYear();

@@ -17,6 +17,12 @@
     <link rel="stylesheet"
           href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
           type="text/css">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- DataTables JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <style>
         .footer {
             background-color: #FADBD8;
@@ -162,66 +168,53 @@
                 </div>
 
 
-                <input type="hidden" id="latitude" th:value="${latitude}" th:field="*{latitude}">
-                <input type="hidden" id="longitude" th:value="${longitude}" th:field="*{longitude}">
-                <div class="mt-4" id="map" style="height:300px;">
-                </div>
-
                 <div class="row">
                     <div class="form-group col">
                         <button class="btn btn-md btn-reg">Ajouter</button>
                     </div>
-                </div><br><br>
+                </div>
+                <hr>
+                <h2 class="form-header card-title mb-1 text-center mt-lg-4">
+                    <i class="fa fa-edit">La liste des responsables</i>
+                </h2>
+                <table id="example" class="display" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Age</th>
+                        <th>Start date</th>
+                        <th>Salary</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>Edinburgh</td>
+                        <td>61</td>
+                        <td>2011-04-25</td>
+                        <td>$320,800</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Age</th>
+                        <th>Start date</th>
+                        <th>Salary</th>
+                    </tr>
+                    </tfoot>
+                </table><br><br>
                 <div th:if="${success != null }" class="alert alert-success">
                     <span th:text="${success}"></span>
                 </div>
             </form>
         </div>
-        <script>
-            mapboxgl.accessToken = 'pk.eyJ1IjoiaGliYWFhMTk4IiwiYSI6ImNsaGszZ2tldjBjOTUza3MxMWZycXVrcjAifQ.jp7BQfH_oAI0F0mOi7rQCQ';
 
-            // Création de la carte centrée sur le Maroc
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [-7.5889900, 33.9715900],
-                zoom: 5
-            });
-
-            // Ajout d'un bouton pour la géolocalisation
-            var geolocate = new mapboxgl.GeolocateControl();
-
-            map.addControl(geolocate);
-
-            geolocate.on('geolocate', function (e) {
-                var lon = e.coords.longitude;
-                var lat = e.coords.latitude;
-                document.getElementById('latitude').value = lat;
-                document.getElementById('longitude').value = lon;
-                var position = [lon, lat];
-                console.log(position);
-            });
-            // Ajout des boutons de zoom et de dézoom
-            map.addControl(new mapboxgl.NavigationControl());
-
-            //Ajout de la barre de recherche
-            map.addControl(
-                new MapboxGeocoder({
-                    accessToken: mapboxgl.accessToken,
-                    mapboxgl: mapboxgl,
-                    position: 'top-left'
-                })
-            );
-
-            // Récupération de la latitude et de la longitude
-            map.on('click', function (e) {
-                document.getElementById('latitude').value = e.lngLat.lat.toFixed(6);
-                document.getElementById('longitude').value = e.lngLat.lng.toFixed(6);
-                console.log('Latitude:', e.lngLat.lat.toFixed(6));
-                console.log('Longitude:', e.lngLat.lng.toFixed(6));
-            });
-
-        </script>
     </div>
 
 </main>
@@ -230,7 +223,11 @@
         <p>Tous les droits réservés &copy; <span id="currentYear"></span>,Transfusion Sanguine</p>
     </div>
 </footer>
-
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
 <script>
     document.getElementById("currentYear").textContent = new Date().getFullYear();
 </script>

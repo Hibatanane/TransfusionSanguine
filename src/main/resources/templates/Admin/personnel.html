@@ -17,6 +17,12 @@
     <link rel="stylesheet"
           href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
           type="text/css">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- DataTables JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <style>
         .footer {
             background-color: #FADBD8;
@@ -88,7 +94,7 @@
             <i class="fa fa-edit">Ajouter un personnel</i>
         </h2>
         <div class="card-body">
-            <form action="/inscription" method="post" class="reg-form" th:object="${addpersonnel}">
+            <form action="/Personnel/ajouterPersonnel" method="post" class="reg-form" th:object="${addpersonnel}">
                 <div class="row">
                     <div class="form-group col">
                         <input type="text" class="form-control form-control-lg" placeholder="Entrer votre prénom"
@@ -119,47 +125,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col">
-                        <input type="text" class="form-control form-control-lg" th:field="*{adresseP}"
-                               placeholder="Entrer votre adresse" required>
 
-                    </div>
-                    <div class="form-group col">
-                        <input type="tel" class="form-control form-control-lg" maxlength="10" pattern="[0-9]{10}" title="Le numéro de téléphone doit contenir exactement 10 chiffres." th:field="*{num}"
-                               placeholder="Votre Numéro de téléphone" required>
-                        <div th:if="${#fields.hasErrors('num')}" class="text-white bg-danger"
-                             th:errors="*{num}"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col">
-                        <input type="date" class="form-control form-control-lg" th:field="*{dateP}" required>
-                    </div>
-                    <div class="form-group col">
-                        <select class="form-select mt-3" aria-label="Default select example" th:field="*{ville}" required>
-                            <option value="" hidden selected> -- Choisissez une ville --</option>
-                            <option th:each="ville:${cities}" th:value="${ville}" th:text="${ville}"></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col">
-                        <select class="form-select mt-2" aria-label="Default select example" th:field="*{typePersonne}"
-                                required>
-                            <option value="" hidden selected>-- Type --</option>
-                            <option value="receveur" th:selected="${typePersonne == 'personnel'}">Personnel</option>
-                        </select>
-                    </div>
-                    <div class="form-group col">
-                        <select class="form-select mt-2" aria-label="Default select example" th:field="*{sexe}"
-                                required>
-                            <option value="" hidden selected>-- Votre Sexe --</option>
-                            <option value="femme" th:selected="${typePersonne == 'femme'}">Femme</option>
-                            <option value="homme" th:selected="${typePersonne == 'homme'}">Homme</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="form-group col">
                         <input type="text" class="form-control form-control-lg" th:field="*{poste}"
@@ -175,67 +141,71 @@
                         </select>
                     </div>
                 </div>
+                <div class="row">
 
-                <input type="hidden" id="latitude" th:value="${latitude}" th:field="*{latitude}">
-                <input type="hidden" id="longitude" th:value="${longitude}" th:field="*{longitude}">
-                <div class="mt-4" id="map" style="height:300px;">
+                    <div class="form-group col">
+                        <select class="form-select mt-2" aria-label="Default select example" th:field="*{sexe}"
+                                required>
+                            <option value="" hidden selected>-- Votre Sexe --</option>
+                            <option value="femme" th:selected="${typePersonne == 'femme'}">Femme</option>
+                            <option value="homme" th:selected="${typePersonne == 'homme'}">Homme</option>
+                        </select>
+                    </div>
+                    <div class="form-group col">
+
+                    </div>
                 </div>
+
+
 
                 <div class="row">
                     <div class="form-group col">
                         <button class="btn btn-md btn-reg">Ajouter</button>
                     </div>
-                </div><br><br>
+                </div>
+                <hr>
+                <h2 class="form-header card-title mb-1 text-center mt-lg-4">
+                    <i class="fa fa-edit">La liste des personnels</i>
+                </h2>
+                <table id="example" class="display" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Age</th>
+                        <th>Start date</th>
+                        <th>Salary</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Tiger Nixon</td>
+                        <td>System Architect</td>
+                        <td>Edinburgh</td>
+                        <td>61</td>
+                        <td>2011-04-25</td>
+                        <td>$320,800</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Office</th>
+                        <th>Age</th>
+                        <th>Start date</th>
+                        <th>Salary</th>
+                    </tr>
+                    </tfoot>
+                </table><br><br>
+
                 <div th:if="${success != null }" class="alert alert-success">
                     <span th:text="${success}"></span>
                 </div>
             </form>
         </div>
-        <script>
-            mapboxgl.accessToken = 'pk.eyJ1IjoiaGliYWFhMTk4IiwiYSI6ImNsaGszZ2tldjBjOTUza3MxMWZycXVrcjAifQ.jp7BQfH_oAI0F0mOi7rQCQ';
 
-            // Création de la carte centrée sur le Maroc
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [-7.5889900, 33.9715900],
-                zoom: 5
-            });
-
-            // Ajout d'un bouton pour la géolocalisation
-            var geolocate = new mapboxgl.GeolocateControl();
-
-            map.addControl(geolocate);
-
-            geolocate.on('geolocate', function (e) {
-                var lon = e.coords.longitude;
-                var lat = e.coords.latitude;
-                document.getElementById('latitude').value = lat;
-                document.getElementById('longitude').value = lon;
-                var position = [lon, lat];
-                console.log(position);
-            });
-            // Ajout des boutons de zoom et de dézoom
-            map.addControl(new mapboxgl.NavigationControl());
-
-            //Ajout de la barre de recherche
-            map.addControl(
-                new MapboxGeocoder({
-                    accessToken: mapboxgl.accessToken,
-                    mapboxgl: mapboxgl,
-                    position: 'top-left'
-                })
-            );
-
-            // Récupération de la latitude et de la longitude
-            map.on('click', function (e) {
-                document.getElementById('latitude').value = e.lngLat.lat.toFixed(6);
-                document.getElementById('longitude').value = e.lngLat.lng.toFixed(6);
-                console.log('Latitude:', e.lngLat.lat.toFixed(6));
-                console.log('Longitude:', e.lngLat.lng.toFixed(6));
-            });
-
-        </script>
     </div>
 
 </main>
@@ -244,7 +214,11 @@
         <p>Tous les droits réservés &copy; <span id="currentYear"></span>,Transfusion Sanguine</p>
     </div>
 </footer>
-
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
 <script>
     document.getElementById("currentYear").textContent = new Date().getFullYear();
 </script>
