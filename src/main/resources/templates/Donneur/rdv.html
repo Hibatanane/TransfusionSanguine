@@ -128,15 +128,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/Donneur/rdv" method="post" class="reg-form" th:object="${Rdv}">
+            <form action="/Donneur/rdv" method="post" class="reg-form" th:object="${newRdv}">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="dateRdv">Date du Rendez-vous</label>
-                        <input type="date" id="dateRdv" name="dateRdv" class="form-control"  required>
+                        <input type="date" id="dateRdv" name="dateRdv" class="form-control" th:field="*{dateRdv}" required>
                     </div>
                     <div class="form-group">
                         <label for="heureRdv">Heure du Rendez-vous</label>
-                        <input type="time" id="heureRdv" name="heureRdv" class="form-control"  required>
+                        <input type="time" id="heureRdv" name="heureRdv" class="form-control" th:field="*{heureRdv}" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -157,7 +157,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
 <script>
     document.getElementById("currentYear").textContent = new Date().getFullYear();
-    (document).ready(function () {
+    $(document).ready(function () {
         $('#votreTableID').DataTable();
     });
     $(document).ready(function () {
