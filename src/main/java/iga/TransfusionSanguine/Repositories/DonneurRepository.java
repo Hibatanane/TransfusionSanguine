@@ -18,4 +18,9 @@ public interface DonneurRepository extends JpaRepository<Donneur,Integer>
     @Transactional
     @Query(value = "insert  INTO Donneur (idPersonne) Values (:idPersonne)",nativeQuery = true)
     public void insererDonneur(@Param("idPersonne")long idPersonne);
+
+    @Query("Select d from Donneur d where d.idPersonne=:idPersonne")
+    Donneur findByIdPersonne(@Param("idPersonne") long idPersonne);
+
+
 }

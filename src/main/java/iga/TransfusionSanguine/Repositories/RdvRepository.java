@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 
 @Repository
-@CrossOrigin("*")
 public interface RdvRepository extends JpaRepository<Rdv, Integer> {
 
     @Query(value = "Select r From Rdv  r where r.donneurRdv.idPersonne=:idDonneur")

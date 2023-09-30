@@ -25,7 +25,6 @@ public class Rdv {
     @Column(length = 30)
     private String centreAffecte;
 
-
     //----------------------------------------------------------//
     //      Relation entre Donneur-Rdv : Prendre   //
 

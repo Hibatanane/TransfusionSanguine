@@ -81,6 +81,9 @@
 <div class="d-flex justify-content-end align-items-center mt-5 ml-4" style="margin-right: 20px;">
     <button class="btn text-white btn-lg" style="background-color: #e54747; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);"id="openDialogBtn">Prendre rdv</button>
 </div>
+<div th:if="${erreurDate}" class="error-message justify-content-end align-items-center mt-5 ml-4  text-danger">
+    <p th:text="${erreurDate}"></p>
+</div>
 <main>
     <div class="container">
 
@@ -118,8 +121,8 @@
         </div>
     </div>
 </main>
-<!-- Modal -->
-<div class="modal fade" id="rdvDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+</div><div class="modal fade" id="rdvDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -128,20 +131,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/Donneur/rdv" method="post" class="reg-form" th:object="${newRdv}">
+            <form action="/Donneur/rdv" method="post" class="reg-form">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="dateRdv">Date du Rendez-vous</label>
-                        <input type="date" id="dateRdv" name="dateRdv" class="form-control" th:field="*{dateRdv}" required>
+                        <input type="date" id="dateRdv" name="dateRdv" class="form-control"  required>
                     </div>
                     <div class="form-group">
                         <label for="heureRdv">Heure du Rendez-vous</label>
-                        <input type="time" id="heureRdv" name="heureRdv" class="form-control" th:field="*{heureRdv}" required>
+                        <input type="time" id="heureRdv" name="heureRdv" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Confirmer le rdv</button>
+                    <button type="submit" class="btn btn-outline-danger">Confirmer le rdv</button>
                 </div>
             </form>
         </div>

@@ -55,7 +55,8 @@ public class PersonneController {
     public ModelAndView register(@Valid @ModelAttribute("registerUser") Personne personne) throws IOException {
         ModelAndView registrationPage = new ModelAndView("register");
         List<String> cities = initCities();
-        if (!personneRepository.isEmailExist(personne.getMail())) {
+        Personne ok = personneRepository.findByMail(personne.getMail());
+        if (ok != null) {
             registrationPage.addObject("errormail", "ce mail existe déjà");
             registrationPage.addObject("cities", cities);
             return registrationPage;
@@ -67,18 +68,47 @@ public class PersonneController {
         }
         //hash password
         String bmdp = BCrypt.hashpw(personne.getMdp(), BCrypt.gensalt());
-        //register user
-        personneRepository.registerUser(personne.getNomP(), personne.getPrenom(), personne.getMail(), bmdp, personne.getAdresseP(), personne.getDateP(), personne.getLatitude(), personne.getLongitude(), personne.getNum(), personne.getSexe(), personne.getVille(), personne.getTypePersonne(), personne.getGroupe(), false, false, false);
-        if (personne.getTypePersonne().equals("Receveur") ||personne.getTypePersonne().equals("receveur"))
-        {
 
-            Receveur receveur=new Receveur();
-            receveur.setIdPersonne(personne.getIdPersonne());
-            receveurRepository.save(receveur);        }
-        else {
-            Donneur donneur=new Donneur();
-            donneur.setIdPersonne(personne.getIdPersonne());
-            donneurRepository.save(donneur);
+        if (personne.getTypePersonne().equals("Receveur") || personne.getTypePersonne().equals("receveur")) {
+
+            Receveur x = new Receveur();
+            x.setNomP(personne.getNomP());
+            x.setPrenom(personne.getPrenom());
+            x.setTypePersonne(personne.getTypePersonne());
+            x.setVille(personne.getVille());
+            x.setAdresseP(personne.getAdresseP());
+            x.setEstAdmin(false);
+            x.setEstPersonnel(false);
+            x.setEstResponsable(false);
+            x.setEnUrgence(false);
+            x.setGroupe(personne.getGroupe());
+            x.setMail(personne.getMail());
+            x.setDateP(personne.getDateP());
+            x.setIdPersonne(personne.getIdPersonne());
+            x.setNum(personne.getNum());
+            x.setLatitude(personne.getLatitude());
+            x.setLongitude(personne.getLongitude());
+            x.setMdp(bmdp);
+            receveurRepository.save(x);
+        } else {
+            Donneur x = new Donneur();
+            x.setNomP(personne.getNomP());
+            x.setPrenom(personne.getPrenom());
+            x.setTypePersonne(personne.getTypePersonne());
+            x.setVille(personne.getVille());
+            x.setAdresseP(personne.getAdresseP());
+            x.setEstAdmin(false);
+            x.setEstPersonnel(false);
+            x.setEstResponsable(false);
+            x.setGroupe(personne.getGroupe());
+            x.setMail(personne.getMail());
+            x.setDateP(personne.getDateP());
+            x.setIdPersonne(personne.getIdPersonne());
+            x.setNum(personne.getNum());
+            x.setLatitude(personne.getLatitude());
+            x.setLongitude(personne.getLongitude());
+            x.setMdp(bmdp);
+            donneurRepository.save(x);
         }
         registrationPage.addObject("success", "Votre compte est crée.");
         //Remplir le champs des villes :
@@ -87,3 +117,4 @@ public class PersonneController {
     }
 
 }
+
